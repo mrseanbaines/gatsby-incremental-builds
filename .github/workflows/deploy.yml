@@ -39,11 +39,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - run: echo ${{ steps.yarn-cache.outputs.cache-hit }}
-
-      - run: yarn --prefer-offline
+      - name: Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-
+        run: yarn --frozen-lockfile
+      - run: ls . -al
       - run: yarn build --log-pages
 
       - run: yarn deploy
