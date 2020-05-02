@@ -3,13 +3,45 @@ on: push
 jobs:
   publish:
     runs-on: ubuntu-latest
-
+    env:
+      GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
     steps:
       - uses: actions/checkout@master
 
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Gatsby cache folder
+        uses: actions/cache@v1
+        id: gatsby-cache-folder
+        with:
+          path: .cache/
+          key: ${{ runner.os }}-cache-gatsby
+          restore-keys: |
+            ${{ runner.os }}-cache-gatsby
+
+      - name: Gatsby public folder
+        uses: actions/cache@v1
+        id: gatsby-public-folder
+        with:
+          path: public/
+          key: ${{ runner.os }}-public-gatsby
+          restore-keys: |
+            ${{ runner.os }}-public-gatsby
+
       - run: yarn
 
-      - run: yarn build
+      - run: yarn build --log-pages
 
       - run: yarn deploy
         env:
