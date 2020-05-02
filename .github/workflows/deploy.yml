@@ -41,7 +41,7 @@ jobs:
 
       - run: echo ${{ steps.yarn-cache.outputs.cache-hit }}
 
-      - run: yarn
+      - run: yarn --prefer-offline
         if: steps.yarn-cache.outputs.cache-hit != 'true'
 
       - run: yarn build --log-pages
