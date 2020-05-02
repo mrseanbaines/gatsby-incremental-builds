@@ -39,7 +39,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - run: echo steps.yarn-cache.outputs.cache-hit
+      - run: echo ${{ steps.yarn-cache.outputs.cache-hit }}
 
       - run: yarn
         if: steps.yarn-cache.outputs.cache-hit != 'true'
