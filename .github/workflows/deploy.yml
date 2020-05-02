@@ -1,7 +1,5 @@
 on: push
 
-name: Publish on Netlify
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -9,10 +7,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Build
-        run: yarn build
+      - run: yarn
 
-      - name: Publish
+      - run: yarn build
+
         uses: netlify/actions/cli@master
         with:
           args: deploy --dir=public --prod
