@@ -13,11 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Get Yarn Cache Directory Path
+      - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Restore Yarn Cache
+      - name: Restore yarn cache
         uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -25,7 +25,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Restore Gatsby Cache Directory
+      - name: Restore Gatsby cache directory
         uses: actions/cache@v1
         with:
           path: .cache/
@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-gatsby
 
-      - name: Restore Gatsby Public Directory
+      - name: Restore Gatsby public directory
         uses: actions/cache@v1
         with:
           path: public/
@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: yarn
 
       - name: Build
