@@ -7,34 +7,31 @@ jobs:
       CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
       CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
     steps:
-      - uses: actions/checkout@master
-
-      - run: ls -al
+      - name: Checkout
+        uses: actions/checkout
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - uses: actions/cache@v1
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - name: Restore yarn cache
+        uses: actions/cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Gatsby cache folder
-        uses: actions/cache@v1
-        id: gatsby-cache-folder
+      - name: Restore Gatsby cache directory
+        uses: actions/cache
         with:
           path: .cache/
           key: ${{ runner.os }}-cache-gatsby
           restore-keys: |
             ${{ runner.os }}-cache-gatsby
 
-      - name: Gatsby public folder
-        uses: actions/cache@v1
-        id: gatsby-public-folder
+      - name: Restore Gatsby public directory
+        uses: actions/cache
         with:
           path: public/
           key: ${{ runner.os }}-public-gatsby
@@ -42,16 +39,13 @@ jobs:
             ${{ runner.os }}-public-gatsby
 
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn --frozen-lockfile
+        run: yarn
 
-      - run: ls -al
+      - name: Build
+        run: yarn build --log-pages
 
-      - run: yarn build --log-pages
-
-      - run: ls -al
-
-      - run: yarn deploy
+      - name: Deploy
+        run: yarn deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
