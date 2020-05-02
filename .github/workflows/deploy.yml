@@ -10,11 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Yarn cache directory
+      - name: Yarn Cache Directory
         id: yarn-cache-dir
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Yarn cache
+      - name: Yarn Cache
         uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -23,7 +23,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Gatsby cache folder
+      - name: Gatsby Cache Folder
         uses: actions/cache@v1
         id: gatsby-cache-folder
         with:
@@ -32,7 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-gatsby
 
-      - name: Gatsby public folder
+      - name: Gatsby Public Folder
         uses: actions/cache@v1
         id: gatsby-public-folder
         with:
