@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_ENV: ${{ secrets.CONTENTFUL_ENV }}
     steps:
       - uses: actions/checkout@master
 
