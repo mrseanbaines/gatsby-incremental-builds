@@ -10,14 +10,14 @@ jobs:
       CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v1
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Restore yarn cache
-        uses: actions/cache@master
+        uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -25,7 +25,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Restore Gatsby cache directory
-        uses: actions/cache@master
+        uses: actions/cache@v1
         with:
           path: .cache/
           key: ${{ runner.os }}-cache-gatsby
@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-cache-gatsby
 
       - name: Restore Gatsby public directory
-        uses: actions/cache@master
+        uses: actions/cache@v1
         with:
           path: public/
           key: ${{ runner.os }}-public-gatsby
