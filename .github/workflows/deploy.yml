@@ -1,7 +1,10 @@
+name: Build & Deploy
+
 on: push
 
 jobs:
-  publish:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     env:
       CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
@@ -44,6 +47,11 @@ jobs:
       - name: Build
         run: yarn build --log-pages
 
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy
         run: yarn deploy
         env:
