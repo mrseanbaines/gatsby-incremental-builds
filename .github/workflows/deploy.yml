@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - run: yarn
+      - run: yarn --pure-lockfile
 
       - run: yarn build --log-pages
 
