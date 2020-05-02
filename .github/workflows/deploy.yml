@@ -1,20 +1,25 @@
-on: push
+name: Node.js CI
+
+on: [push]
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     env:
-      GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
       CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-    steps:
-      - uses: actions/checkout@master
 
-      - name: Yarn Cache Directory
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Yarn cache directory
         id: yarn-cache-dir
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Yarn Cache
+      - name: Yarn cache
         uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -27,7 +32,7 @@ jobs:
         uses: actions/cache@v1
         id: gatsby-cache-folder
         with:
-          path: .cache/
+          path: .cache
           key: ${{ runner.os }}-cache-gatsby
           restore-keys: |
             ${{ runner.os }}-cache-gatsby
@@ -41,9 +46,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - run: yarn --pure-lockfile
+      - run: yarn install --pure-lockfile
+        name: Install dependencies
 
       - run: yarn build --log-pages
+        name: Build
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          NODE_ENV: production
+          ENVIRONMENT: ${{ contains(github.ref, 'master') && 'production' || 'staging'}}
 
       - run: yarn deploy
         env:
