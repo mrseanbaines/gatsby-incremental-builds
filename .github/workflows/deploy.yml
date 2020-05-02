@@ -9,12 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - run: ls -al
+
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - run: ls . -al
+      - run: ls -al
 
       - run: yarn build --log-pages
+
+      - run: ls -al
 
       - run: yarn deploy
         env:
