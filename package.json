@@ -10,6 +10,7 @@
     "gatsby-plugin-manifest": "^2.4.0",
     "gatsby-plugin-offline": "^3.2.0",
     "gatsby-plugin-react-helmet": "^3.3.0",
+    "gatsby-plugin-s3": "^0.3.3",
     "gatsby-plugin-sharp": "^2.6.0",
     "gatsby-source-filesystem": "^2.3.0",
     "gatsby-transformer-sharp": "^2.5.0",
@@ -26,6 +27,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "deploy": "gatsby-plugin-s3 deploy",
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",

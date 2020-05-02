@@ -11,9 +11,7 @@ jobs:
 
       - run: yarn build
 
-      - uses: netlify/actions/cli@master
-        with:
-          args: deploy --dir=public --prod
+      - run: yarn deploy
         env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
